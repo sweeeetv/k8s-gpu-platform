@@ -36,10 +36,10 @@ variable "pod_cidr" { //every pod gets an ip from this range, only exist because
 # For 95% of K8s workloads, it's just regular CPU VMs.
 
 variable "control_plane_instance_type" {
-  default = "t3.medium"  #(2 vCPU/4GB) is the practical minimum — kubeadm's preflight checks want 2 CPUs, which rules out free-tier t2/t3.micro. 
+  default = "t3.small"  #(2 vCPU/4GB) is the practical minimum — kubeadm's preflight checks want 2 CPUs, which rules out free-tier t2/t3.micro. 
 }
 variable "cpu_worker_instance_type" {
-  default = "t3.medium"
+  default = "t3.small"
 }
 
 # --- GPU node bridge ------------------------
@@ -50,15 +50,15 @@ variable "gpu_node_ip" {
   default     = null
 }
 
-# spot instance
-variable "gpu_worker_instance_type" {
-  description = "Spot GPU instance type, e.g. g4dn.xlarge (1x T4)"
-  type        = string
-  default     = "g4dn.xlarge"
-}
+# # spot instance
+# variable "gpu_worker_instance_type" {
+#   description = "Spot GPU instance type, e.g. g4dn.xlarge (1x T4)"
+#   type        = string
+#   default     = "g4dn.xlarge"
+# }
 
-variable "gpu_spot_max_price" {
-  description = "Max hourly price willing to pay for the GPU spot instance"
-  type        = string
-  default     = "0.30"
-}
+# variable "gpu_spot_max_price" {
+#   description = "Max hourly price willing to pay for the GPU spot instance"
+#   type        = string
+#   default     = "0.30"
+# }

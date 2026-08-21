@@ -13,8 +13,8 @@ data "aws_ami" "ubuntu_id" {
 
 resource "aws_instance" "control_plane" { 
   ami                    = data.aws_ami.ubuntu_id.id
-  instance_type          = var.control_plane_instance_type // control plane is a t3.medium (2 vCPU/4GB) instance, practical minimum for kubeadm's preflight checks.
-  subnet_id              = aws_subnet.public.id //control plane should be in the private subnet, but for simplicity, public subnet here.
+  instance_type          = var.control_plane_instance_type
+  subnet_id     = aws_subnet.public.id //control plane should be in the private subnet, but for simplicity, public subnet here.
   //how to talk to -> api server is usually explosed by:  NLB in public subnet (most common), bastion in the public subnet, or VPN. 
   key_name               = var.key_pair_name
   vpc_security_group_ids = [aws_security_group.k8s_nodes.id]
@@ -37,7 +37,7 @@ resource "aws_instance" "control_plane" {
 }
 
 resource "aws_instance" "cpu_worker" {
-  ami                    = data.aws_ami.ubuntu.id
+  ami                    = data.aws_ami.ubuntu_id.id
   instance_type          = var.cpu_worker_instance_type
   subnet_id              = aws_subnet.public.id
   key_name               = var.key_pair_name
@@ -57,6 +57,6 @@ resource "aws_instance" "cpu_worker" {
 
   tags = {
     Name = "${var.prefix}-worker"
-    Role = "worker"
+    Role = "worker-node"
   }
 }

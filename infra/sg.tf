@@ -8,7 +8,7 @@ resource "aws_security_group" "k8s_nodes" {
   description = "AWS-side cluster nodes (control-plane, cpu-worker)"
   vpc_id      = aws_vpc.main.id
 
-  tags = { Name = "k8s-gpu-platform-nodes-sg" }
+  tags = { Name = "${var.prefix}-nodes-sg" }
 }
 
 resource "aws_security_group_rule" "nodes_self_all" {
@@ -18,7 +18,7 @@ resource "aws_security_group_rule" "nodes_self_all" {
   protocol                 = "-1"
   security_group_id        = aws_security_group.k8s_nodes.id
   source_security_group_id = aws_security_group.k8s_nodes.id
-  description               = "All traffic between AWS-side cluster nodes"
+  description   = "All traffic between AWS-side cluster nodes"
 }
 
 resource "aws_security_group_rule" "ssh_from_me" {

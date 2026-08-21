@@ -21,7 +21,7 @@ resource "aws_security_group_rule" "gpu_node_to_api" {
   protocol          = "tcp"
   security_group_id = aws_security_group.k8s_nodes.id
   cidr_blocks       = [var.gpu_node_ip]
-  description       = "GPU node -> API server"
+  description       = "GPU node - API server"
 }
 
 resource "aws_security_group_rule" "gpu_node_kubelet" {
@@ -32,7 +32,7 @@ resource "aws_security_group_rule" "gpu_node_kubelet" {
   protocol          = "tcp"
   security_group_id = aws_security_group.k8s_nodes.id
   cidr_blocks       = [var.gpu_node_ip]
-  description       = "control-plane -> GPU node kubelet"
+  description       = "control-plane - GPU node kubelet"
 }
 
 resource "aws_security_group_rule" "gpu_node_bgp" {
